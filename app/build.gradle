@@ -5,14 +5,21 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion build_versions.target_sdk
+    buildToolsVersion build_versions.build_tools
+
     defaultConfig {
         applicationId "com.tommy.jetpack"
-        minSdkVersion 14
-        targetSdkVersion 27
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath false
+            }
+        }
     }
     buildTypes {
         release {
@@ -20,14 +27,59 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    dataBinding {
+        enabled = true
+    }
+    productFlavors {
+    }
+    lintOptions {
+        abortOnError false
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    implementation deps.kotlin.stdlib
+    implementation deps.support.app_compat
+    implementation deps.support.constraint_layout
+
+    // ViewModel and LiveData
+    implementation deps.lifecycle.runtime
+    implementation deps.lifecycle.extensions
+    implementation deps.lifecycle.viewmodel
+    implementation deps.lifecycle.livedata
+    implementation deps.lifecycle.compiler
+    implementation deps.lifecycle.java8
+    implementation deps.lifecycle.reactivestreams
+
+    // Room
+    implementation deps.room.runtime
+    implementation deps.room.compiler
+    implementation deps.room.rxjava2
+    implementation deps.room.guava
+
+    // Paging
+    implementation deps.paging.runtime
+    implementation deps.paging.rxjava2
+
+    // Navigation
+    implementation deps.navigation.fragment
+    implementation deps.navigation.ui
+
+    // WorkManager
+    implementation deps.work.runtime
+    implementation deps.work.firebase
+
+    // Dagger
+    implementation deps.dagger.runtime
+    implementation deps.dagger.android
+    implementation deps.dagger.compiler
+    implementation deps.dagger.android_support
+    implementation deps.dagger.android_support_compiler
+
 }
