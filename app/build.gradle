@@ -14,6 +14,7 @@ android {
         targetSdkVersion build_versions.target_sdk
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
             annotationProcessorOptions {
@@ -59,7 +60,7 @@ dependencies {
 
     // Room
     implementation deps.room.runtime
-    implementation deps.room.compiler
+    annotationProcessor deps.room.compiler
     implementation deps.room.rxjava2
     implementation deps.room.guava
 
@@ -78,8 +79,8 @@ dependencies {
     // Dagger
     implementation deps.dagger.runtime
     implementation deps.dagger.android
-    implementation deps.dagger.compiler
+    annotationProcessor deps.dagger.compiler
     implementation deps.dagger.android_support
-    implementation deps.dagger.android_support_compiler
+    annotationProcessor deps.dagger.android_support_compiler
 
 }
